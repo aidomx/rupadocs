@@ -1,0 +1,24 @@
+import{_ as n,o as s,c as e,a0 as i}from"./chunks/framework.BpJS36ta.js";const m=JSON.parse('{"title":"Enum","description":"","frontmatter":{},"headers":[],"relativePath":"syntax/enum.md","filePath":"syntax/enum.md"}'),p={name:"syntax/enum.md"};function t(l,a,r,o,u,d){return s(),e("div",null,[...a[0]||(a[0]=[i(`<h1 id="enum" tabindex="-1">Enum <a class="header-anchor" href="#enum" aria-label="Permalink to &quot;Enum&quot;">​</a></h1><h2 id="apa-yang-bisa-ditulis" tabindex="-1">Apa yang bisa ditulis? <a class="header-anchor" href="#apa-yang-bisa-ditulis" aria-label="Permalink to &quot;Apa yang bisa ditulis?&quot;">​</a></h2><div class="language-rupa vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">rupa</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>enum Color {</span></span>
+<span class="line"><span>  RED</span></span>
+<span class="line"><span>  GREEN = 5</span></span>
+<span class="line"><span>  BLUE</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>enum TokenType {</span></span>
+<span class="line"><span>  IDENTIFIER: string = &quot;id&quot;</span></span>
+<span class="line"><span>  ASSIGN = 0</span></span>
+<span class="line"><span>}</span></span></code></pre></div><h2 id="kapan-digunakan" tabindex="-1">Kapan digunakan? <a class="header-anchor" href="#kapan-digunakan" aria-label="Permalink to &quot;Kapan digunakan?&quot;">​</a></h2><p>Gunakan enum untuk mendefinisikan sekumpulan konstanta bernama di bawah satu namespace. Member tanpa nilai mendapat angka otomatis (auto-increment), member dengan nilai eksplisit dipakai sebagai titik lanjutan counter.</p><h2 id="apa-hasilnya" tabindex="-1">Apa hasilnya? <a class="header-anchor" href="#apa-hasilnya" aria-label="Permalink to &quot;Apa hasilnya?&quot;">​</a></h2><ul><li>Member tanpa nilai → konstanta numerik berurut (0, 1, 2, ...).</li><li>Member dengan nilai → nilai eksplisit (number atau string); member berikutnya tanpa nilai melanjutkan dari angka sebelumnya + 1.</li><li>Member bertipe (<code>NAME: Type = value</code>) → nilai dievaluasi sesuai tipenya.</li><li>Nama enum sendiri ter-bind sebagai object berisi seluruh member, sehingga bisa dibaca lewat member access.</li></ul><div class="language-rupa vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">rupa</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>enum Color {</span></span>
+<span class="line"><span>  RED</span></span>
+<span class="line"><span>  GREEN = 5</span></span>
+<span class="line"><span>  BLUE</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>print(Color.RED)    # 0</span></span>
+<span class="line"><span>print(Color.GREEN)  # 5</span></span>
+<span class="line"><span>print(Color.BLUE)   # 6  (auto: 5 + 1)</span></span></code></pre></div><p>Member juga bisa diakses langsung sebagai konstanta:</p><div class="language-rupa vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">rupa</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>enum Color { RED GREEN }</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>print(RED)  # 0</span></span>
+<span class="line"><span>print(GREEN)  # 1</span></span></code></pre></div><h2 id="enumerror-—-member-tidak-dikenal-proteksi-konstanta" tabindex="-1">EnumError — member tidak dikenal &amp; proteksi konstanta <a class="header-anchor" href="#enumerror-—-member-tidak-dikenal-proteksi-konstanta" aria-label="Permalink to &quot;EnumError — member tidak dikenal &amp; proteksi konstanta&quot;">​</a></h2><p>Member enum bersifat konstanta dan lookup-nya ketat:</p><div class="language-rupa vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">rupa</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>enum Color { RED GREEN }</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>print(Color.Green)  # EnumError: &#39;Green&#39; is not a member of enum &#39;Color&#39;</span></span>
+<span class="line"><span>Color.RED = 9       # EnumError: cannot assign member &#39;RED&#39; on enum &#39;Color&#39;</span></span></code></pre></div><p>Typo casing (mis. <code>Green</code> vs <code>GREEN</code>) ditolak dengan error eksplisit, bukan <code>null</code> senyap. Ini berlaku di mode interpreter maupun mode IR (<code>rupa &lt;file&gt;</code>). Berbeda dengan object biasa yang tetap mengembalikan <code>null</code> untuk member yang tidak ada (backward compatible).</p>`,14)])])}const b=n(p,[["render",t]]);export{m as __pageData,b as default};
