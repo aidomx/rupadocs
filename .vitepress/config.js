@@ -1,12 +1,12 @@
-import { defineConfig } from 'vitepress'
+import { defineConfig } from 'vitepress';
 
 export default defineConfig({
-  base: '/rupa/',
+  base: '/rupadocs/',
   title: 'Rupa',
   description: 'Satu Bahasa, Banyak Cara Bicara',
-  
+
   head: [
-    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/rupa/logo.svg' }]
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/rupadocs/logo.svg' }]
   ],
 
   themeConfig: {
@@ -23,9 +23,7 @@ export default defineConfig({
       '/guide/': [
         {
           text: 'Panduan',
-          items: [
-            { text: 'Memulai', link: '/guide/getting-started' }
-          ]
+          items: [{ text: 'Memulai', link: '/guide/getting-started' }]
         }
       ],
       '/syntax/': [
@@ -139,12 +137,10 @@ export default defineConfig({
             { text: 'Net', link: '/modules/grammar/net' }
           ]
         }
-      ],
+      ]
     },
 
-    socialLinks: [
-      { icon: 'github', link: 'https://github.com/aidomx/rupa' }
-    ],
+    socialLinks: [{ icon: 'github', link: 'https://github.com/aidomx/rupa' }],
 
     footer: {
       message: 'Dirilis di bawah Lisensi MIT.',
@@ -160,4 +156,4 @@ export default defineConfig({
       next: 'Berikutnya'
     }
   }
-})
+});
