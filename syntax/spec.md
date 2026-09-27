@@ -74,6 +74,28 @@ tidak sengaja ter-upload.
 - `.spec` — boleh di-upload mau bentuk encrypted atau tidak, terserah
   Anda; mau aman ya encrypted sebelum upload.
 
+### `root:` — basis project
+
+`root:` menentukan basis pencarian entry, `serve.rp`, dan folder `res/`
+(view engine). Nilai relatif di-resolve terhadap folder `.spec`:
+
+```text
+root: .      # folder .spec = akar project (default)
+root: ..     # project di folder induk
+root: src    # subfolder
+```
+
+Di user code, root aktif terekspose lewat modul `spec`:
+
+```rupa
+import spec from rupa
+print(spec.root)   // path absolut root project saat rupa go
+```
+
+Di luar `rupa go`, `spec.root` bernilai `null`. `print(spec)` ditolak
+penuh (tag provenance `__spec`), tapi akses field seperti `spec.root`
+boleh — akses boleh, tampilkan tidak.
+
 ### Mode dev / build (rupa go)
 
 ```sh

@@ -30,6 +30,7 @@ module di `src/stdlib/` (mis. `os`, `io`, `thread`).
 | [sys](sys.md) | `import sys from rupa` | env, cwd, platform, arch, path utilities |
 | [fs](fs.md) | `import fs from rupa` | read, write, append, exists, isDir |
 | [database](database.md) | `import database from rupa` | penyedia koneksi driver (nosql, mariadb, psql, mysql, sqlite) |
+| [view](view.md) | `import resources as r, render from rupa.view` | view engine: marker `id="@name"` auto-scan dari `res/`, render elemen |
 
 Sintaks import/export lengkap: [Syntax — Import](../../syntax/import.md),
 [Syntax — Export](../../syntax/export.md). Grammar implementasi:

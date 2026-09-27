@@ -82,7 +82,56 @@ Program:
       String: "\n"
 ```
 
-Node `StringInterp` berisi array parts yang ber чередaan antara `String` (literal) dan expression nodes.
+Node `StringInterp` berisi array parts yang berselang-seling antara `String` (literal) dan expression nodes.
+
+---
+
+## Format printf-style
+
+Argumen pertama berupa string format, sisa argumen menjadi nilai konversinya:
+
+```rupa
+print('%s\n', 'hello');          // output: hello
+print('%d + %d = %d\n', 1, 2, 3); // output: 1 + 2 = 3
+print('hex=%x\n', 255);          // output: hex=ff
+```
+
+Konversi yang didukung:
+
+| Spec                        | Keterangan                                            | Contoh                    |
+| --------------------------- | ----------------------------------------------------- | ------------------------- |
+| `%s`                        | Semua tipe, di-stringify sejajar multi-arg            | `print('%s', [1, 2])`     |
+| `%d` `%i`                   | Bilangan bulat                                        | `print('%d', 42)` → `42`  |
+| `%u`                        | Unsigned                                              |                           |
+| `%x` `%X`                   | Heksadesimal (huruf kecil / besar)                    | `print('%x', 255)` → `ff` |
+| `%o`                        | Oktal                                                 |                           |
+| `%f` `%F` `%e` `%E` `%g` `%G` | Floating point                                      | `print('%f', 2.5)`        |
+| `%c`                        | Karakter (number = kode, string = karakter pertama)   | `print('%c', 65)` → `A`   |
+| `%%`                        | Literal `%`                                           | `print('50%%')` → `50%`   |
+
+Flags `-` (rata kiri), `+` (tanda), `0` (padding nol), width, dan precision didukung:
+
+```rupa
+print('[%5d]\n', 42);       // [   42]
+print('[%-5d]\n', 42);      // [42   ]
+print('[%.2f]\n', 3.14159); // [3.14]
+```
+
+String tanpa konversi valid dicetak apa adanya — `print('50%')` aman tanpa format. Argumen yang lebih banyak dari konversi tetap dicetak, dipisahkan spasi.
+
+---
+
+## Stream target
+
+Argumen pertama `stdout` atau `stderr` menentukan stream tujuan; sisa argumen mengikuti format (pola 1, 2, atau 3):
+
+```rupa
+print(stderr, 'gagal: %s\n', 'koneksi'); // ke stderr
+print(stderr, 'err\n');                  // ke stderr
+print(stdout, 'ok\n');                   // ke stdout (eksplisit)
+```
+
+`stdout` dan `stderr` adalah binding global berisi handle stream. Tanpa argumen stream, output selalu ditulis ke stdout.
 
 ---
 
@@ -93,21 +142,27 @@ Gunakan print() untuk menampilkan output ke terminal.
 · Multiple arguments dipisahkan koma.
 · Interpolasi memudahkan penyisipan ekspresi di dalam teks.
 · Gunakan `{x}` untuk variable sederhana, `{{x + y}}` untuk ekspresi kompleks.
+· Gunakan format printf-style (`%s`, `%d`, ...) saat perlu alignment, padding, atau format angka.
+· Gunakan `stderr` untuk pesan error dan `stdout` untuk output normal.
 
 ---
 
 ## Apa hasilnya?
 
 · print() tidak menambahkan newline otomatis. Gunakan \n untuk menambahkan newline secara eksplisit.
-· Multiple arguments dicetak berurutan tanpa separator (spasi tidak ditambahkan otomatis).
+· Multiple arguments dicetak berurutan dipisahkan satu spasi.
 · Tipe data ditampilkan sesuai representasinya (string, angka, boolean, array, objek, dll.).
 · Ekspresi dalam `{ }` atau `{{ }}` dievaluasi dan hasilnya dikonversi ke string.
+· Konversi format tanpa argumen dicetak apa adanya; string tanpa konversi valid tidak diubah.
+· Stream target (`stderr`) ditulis dan di-flush langsung; output program lain tetap ke stdout.
 
 ```rupa
 print('hello'); // output: hello (tanpa newline)
 print('hello\n'); // output: hello (dengan newline)
 print('{x}'); // output: nilai x
 print('{{x + y}}\n'); // output: hasil penjumlahan x+y + newline
+print('%s = %d\n', 'x', 5); // output: x = 5
+print(stderr, 'gagal\n'); // ke stderr
 ```
 
 ---
@@ -125,11 +180,12 @@ print(name + '\n');
 print('x =', x, '\n');
 print('{x}\n');
 print('{{x + y}}\n');
-print('obj.key = {obj.key}\n');
-print('{{obj.key}}\n');
+print('%s: %d\n', name, x);
+print('hex=%x char=%c\n', 255, 65);
+print(stderr, '%s=%d\n', 'exit', 1);
 ```
 
-Output:
+Output (stdout):
 
 ```
 hello world
@@ -137,8 +193,14 @@ rupa
 x = 1
 1
 3
-obj.key = value
-value
+rupa: 1
+hex=ff char=A
 ```
 
-Arguments dicetak berurutan tanpa separator. Tipe data ditampilkan sesuai representasinya.
+Output (stderr):
+
+```
+exit=1
+```
+
+Arguments dicetak berurutan dipisahkan satu spasi. Tipe data ditampilkan sesuai representasinya. Stream target mengarahkan output ke stderr atau stdout.

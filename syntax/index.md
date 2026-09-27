@@ -20,6 +20,7 @@ Dokumentasi grammar dan implementasi syntax dapat dilihat di [`docs/grammar/`](.
 - [Assignment](assignment.md)
 - [Const](const.md)
 - [Update](update.md)
+- [Ternary](ternary.md)
 - [Fallback](fallback.md)
 
 ## Data
@@ -54,7 +55,7 @@ Dokumentasi grammar dan implementasi syntax dapat dilihat di [`docs/grammar/`](.
 ## Module dan Program
 
 - [Main](main.md)
-- [View Module](view.md)
+- [View](view.md)
 - [Module](module.md)
 - [Spec](spec.md)
 - [Annotation](annotation.md)

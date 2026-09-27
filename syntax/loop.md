@@ -29,6 +29,22 @@ rev i > 0 {
 }
 ```
 
+Header panjang — init;condition ( gaya C-style terbatas):
+
+```rupa
+for i = 0; i < 10 {
+    print(i)
+}
+```
+
+Mundur:
+
+```rupa
+rev i = 10; i > 0 {
+    print(i)
+}
+```
+
 While loop:
 
 ```rupa
@@ -62,6 +78,36 @@ Output:
 2
 3
 4
+```
+
+```rupa
+for i = 0; i < 5 {
+    print(i)
+}
+```
+
+Output:
+```
+0
+1
+2
+3
+4
+```
+
+Mundur — `rev` dengan init, condition menurun:
+
+```rupa
+rev i = 3; i > 0 {
+    print(i)
+}
+```
+
+Output:
+```
+3
+2
+1
 ```
 
 ```rupa

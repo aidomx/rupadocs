@@ -1,7 +1,7 @@
 # TODO — Rupa Language
 
 > Status fitur: siap, dalam pengembangan, belum ada.
-> Terakhir diperbarui: 21 September 2026
+> Terakhir diperbarui: 26 September 2026
 
 ---
 
@@ -9,13 +9,13 @@
 
 | Kategori          | Siap | Dalam Pengembangan | Belum |
 | ----------------- | ---- | ------------------ | ----- |
-| Syntax & Grammar  | 28   | 1                  | 5     |
-| Standard Library  | 16   | 0                  | 1     |
+| Syntax & Grammar  | 30   | 1                  | 4     |
+| Standard Library  | 17   | 0                  | 0     |
 | Module System     | 11   | 0                  | 3     |
 | REPL & Editor     | 14   | 1                  | 0     |
 | Compiler (`-c`)   | 0    | 1                  | 1     |
 | Testing           | 54   | -                  | 0     |
-| Documentation     | 32   | 0                  | 4     |
+| Documentation     | 34   | 0                  | 3     |
 
 Testing: syntax **54/54** (`--test`), IR rewrite **54/54** (`--test-ir`),
 IR exec **54/54** (`--test-irexec`), execution **19/19** (`--test-exec` atas
@@ -46,6 +46,9 @@ Fallback, Then, Member Access, Comment — docs masing-masing di
 | Return-type + void | `foo(): void {}` — enforcement di interpreter & IR                     |
 | Class             | `Name: Type {}` → `NODE_CLASS_DECL`; AST `Class:`, formatter round-trip |
 | Enum              | `enum Nama { MEMBER = 1 }` → AST member eksplisit; auto-increment       |
+| Ternary           | `cond ? a : b` — pipe `c \| v \| else`, cascade `c -> v \| else`        |
+| Loop for-init     | `for i = 0; i < 10 {` / `rev i = 10; i > 0 {` — init + condition        |
+| View builtin      | `r.id.<name>` auto-scan `res/**/*.rpx`, id tunggal, render tanpa tulis file |
 
 ### 🔨 Dalam Pengembangan
 
@@ -56,10 +59,12 @@ Fallback, Then, Member Access, Comment — docs masing-masing di
 
 ### ❌ Belum Tersedia
 
-For loop (C-style), Destructuring, Try/Catch, Generator/Iterator, Decorator.
+For loop penuh (segmen increment), Destructuring, Try/Catch,
+Generator/Iterator, Decorator.
 
-Catatan: conditional-expression tertutup oleh fallback chain
-`x = primary | fallback` (lihat `docs/syntax/fallback.md`).
+Catatan: pemilihan nilai ber-condition kini punya bentuk ternary khusus
+(`docs/syntax/ternary.md`); fallback chain `x = primary | fallback` tetap
+untuk coalescing (lihat `docs/syntax/fallback.md`).
 
 ---
 
@@ -72,7 +77,9 @@ crypto, net — docs di `docs/modules/syntax/*.md` + `docs/modules/grammar/*.md`
 
 ### ✅ Siap — 5 Rupa packages
 
-sys, fs, database, collections, strings.
+sys, fs, database, collections, view — view engine (`r.id.<name>` auto-scan
+marker `id="@name"` di `res/**/*.rpx` via `spec.root`, render konten tanpa
+menulis file; `docs/modules/syntax/view.md`).
 
 Di luar hitungan: rupamemory (sizeof, blok ops contract ccpy/cmove/cset,
 dup family) built-in global tanpa import. pin/elpin/repin/repins/unpin
@@ -81,7 +88,7 @@ blok ops lama `setpin/movepin/copypin` di-rename `cset/cmove/ccpy`.
 
 ### ❌ Belum Tersedia
 
-ui/view (UI rendering).
+(kosong — view sudah masuk sebagai package)
 
 ---
 
@@ -173,11 +180,14 @@ Dijalankan lewat batch runner: `rupa test`, `rupa test --list`,
 
 Index (syntax/grammar/modules), Main, Import, Export + docs module:
 math, os, io, json, string, thread, http, datetime, regex, crypto, net,
-sys, fs, database (syntax + grammar masing-masing).
+sys, fs, database (syntax + grammar masing-masing), view
+(modules/syntax/view.md + syntax/view.md). Update 26 September 2026:
+hlama view (API lama `Render.view`) ditulis ulang, halaman ternary baru,
+loop for-init terdokumentasi, `spec.root` masuk docs spec.
 
 ### ❌ Belum Dibuat
 
-`docs/modules/syntax/collections.md`, `docs/modules/syntax/strings.md`,
+`docs/modules/syntax/collections.md`,
 `docs/syntax/namespace.md`, `docs/grammar/namespace.md`.
 
 ---
@@ -213,7 +223,6 @@ ditolak (test: `tests/execution/struct_layout.rp`)
 
 ### Low
 
-- For loop (C-style)
+- For loop penuh (segmen increment)
 - Try/Catch error handling
-- UI/View module
 - `-c` compilation (IR → C)

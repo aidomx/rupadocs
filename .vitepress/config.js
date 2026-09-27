@@ -38,6 +38,7 @@ export default defineConfig({
             { text: 'Print', link: '/syntax/print' },
             { text: 'Assignment', link: '/syntax/assignment' },
             { text: 'Expression', link: '/syntax/expression' },
+            { text: 'Ternary', link: '/syntax/ternary' },
             { text: 'Update', link: '/syntax/update' },
             { text: 'String', link: '/syntax/string' },
             { text: 'Array', link: '/syntax/array' },
@@ -120,7 +121,8 @@ export default defineConfig({
             { text: 'Net', link: '/modules/syntax/net' },
             { text: 'Sys', link: '/modules/syntax/sys' },
             { text: 'Fs', link: '/modules/syntax/fs' },
-            { text: 'Database', link: '/modules/syntax/database' }
+            { text: 'Database', link: '/modules/syntax/database' },
+            { text: 'View', link: '/modules/syntax/view' }
           ]
         },
         {
