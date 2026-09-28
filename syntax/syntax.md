@@ -3,7 +3,7 @@
 ## Apa yang bisa ditulis?
 
 ```rupa
-# Comment
+// Comment
 x = 1
 name = "rupa"
 ```
@@ -19,7 +19,7 @@ Rupa menggunakan syntax yang familiar dan readable. Setiap construct memiliki at
 ### Contoh execution
 
 ```rupa
-# This is a comment
+// This is a comment
 x = 1
 y = 2
 print(x + y)

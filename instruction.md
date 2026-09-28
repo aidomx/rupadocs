@@ -97,13 +97,19 @@ Daftar file test dan seleksi per nomor:
 Bentuk pendek yang setara:
 
 ```bash
-./bin/rupa -t -p syntax -s 1
-./bin/rupa -tps syntax 1
+./bin/rupa -t syntax 1
+./bin/rupa -t ast
 ./bin/rupa -l
-./bin/rupa -lp ast
+./bin/rupa -lt ast
 ```
 
 Rincian lengkap: `./bin/rupa help test`.
+
+Disassembler IR (lihat struktur opcode hasil rewrite):
+
+```bash
+./bin/rupa ir file.rp
+```
 
 Jika ingin melakukan perubahan pada compiler atau syntax, jalankan test setelah perubahan dibuat.
 

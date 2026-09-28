@@ -1,7 +1,7 @@
 # TODO — Rupa Language
 
 > Status fitur: siap, dalam pengembangan, belum ada.
-> Terakhir diperbarui: 26 September 2026
+> Terakhir diperbarui: 28 September 2026 (sinkron v0.2.2)
 
 ---
 
@@ -9,19 +9,25 @@
 
 | Kategori          | Siap | Dalam Pengembangan | Belum |
 | ----------------- | ---- | ------------------ | ----- |
-| Syntax & Grammar  | 30   | 1                  | 4     |
+| Syntax & Grammar  | 31   | 1                  | 4     |
 | Standard Library  | 17   | 0                  | 0     |
 | Module System     | 11   | 0                  | 3     |
 | REPL & Editor     | 14   | 1                  | 0     |
 | Compiler (`-c`)   | 0    | 1                  | 1     |
-| Testing           | 54   | -                  | 0     |
-| Documentation     | 34   | 0                  | 3     |
+| Testing           | 188  | -                  | 0     |
+| Documentation     | 35   | 0                  | 3     |
 
-Testing: syntax **54/54** (`--test`), IR rewrite **54/54** (`--test-ir`),
-IR exec **54/54** (`--test-irexec`), execution **19/19** (`--test-exec` atas
-13 file `tests/execution/` + 6 `tests/semantics/`), REPL **31/31**
-(`--test-repl`). Formatter: 113 file di-scan, 1 FAIL by-design
-(`tests/stress/index.rp` memang memicu LexerError).
+Testing: syntax **61/61** (`rupa test`), AST **8/8** (`rupa test ast`),
+IR rewrite **61/61** (`rupa test ir`), IR exec **61/61** (`rupa test
+irexec`), execution **18/18** (`rupa test exec`), REPL **37/37**
+(`rupa test repl`), formatter **2/2** (`rupa test fmt`).
+1 FAIL by-design: `tests/stress/index.rp` memang memicu LexerError
+(file berisi `.` untuk menguji tampilan error).
+
+Tooling baru v0.2.2: opcode disassembler `rupa ir` (IR readable per
+opcode untuk debugging pipeline), build library `lib/librupa.a` +
+`lib/librupa.so` (rbot `libraryName`/`libraryShared`) untuk embedding
+rbot/rupad via `#include <rupa.h>`.
 
 Batch runner baru: `rupa test [kategori] [--list] [--select n]` dengan
 kategori `syntax` (default), `ast`, `ir`, `irexec`, `exec`, `semantics`,
@@ -43,12 +49,19 @@ Fallback, Then, Member Access, Comment — docs masing-masing di
 | Fitur baru        | Catatan                                                                 |
 | ----------------- | ----------------------------------------------------------------------- |
 | Number 64-bit     | `as.number` = long long; `sizeof(number)` = 8; print `%lld`             |
-| Return-type + void | `foo(): void {}` — enforcement di interpreter & IR                     |
+| Return-type + void | `foo(): void {}` — enforcement di interpreter & IR; non-void kini
+  juga dicek: `getName(): string { return 1 }` = TypeError (scalar,
+  struct terdaftar, `T[]`, handle Contract)                        |
 | Class             | `Name: Type {}` → `NODE_CLASS_DECL`; AST `Class:`, formatter round-trip |
 | Enum              | `enum Nama { MEMBER = 1 }` → AST member eksplisit; auto-increment       |
 | Ternary           | `cond ? a : b` — pipe `c \| v \| else`, cascade `c -> v \| else`        |
 | Loop for-init     | `for i = 0; i < 10 {` / `rev i = 10; i > 0 {` — init + condition        |
 | View builtin      | `r.id.<name>` auto-scan `res/**/*.rpx`, id tunggal, render tanpa tulis file |
+| Print pola 3      | printf-style: `print("%s\n", "hi")` — `%s %d %f %x %c` + flags/width/precision |
+| Print pola 4      | stream target: `print(stderr, format, ...)`; binding `stdout`/`stderr`  |
+| Color             | hex literal `#rgb`/`#rrggbb` (NUMBER 24-bit), `U_RED`..., enum member
+  `color` → ANSI truecolor via print; `#` non-hex = LexerError (komentar
+  kini hanya `//` dan `/* */`)                                      |
 
 ### 🔨 Dalam Pengembangan
 
@@ -158,16 +171,18 @@ IR pipeline (`src/compiler/ir/`): AST → IR (`rewrite.c`) + executor
 
 | Suite         | Jumlah | Status |
 | ------------- | ------ | ------ |
-| syntax        | 55     | PASS   |
-| ir            | 55     | PASS   |
-| irexec        | 55     | PASS   |
-| exec          | 19     | PASS   |
-| repl          | 18     | PASS   |
-| fmt           | 1      | PASS   |
+| syntax        | 61     | PASS   |
+| ast           | 8      | PASS   |
+| ir            | 61     | PASS   |
+| irexec        | 61     | PASS   |
+| exec          | 18     | PASS   |
+| repl          | 37     | PASS   |
+| fmt           | 2      | PASS   |
 
 Suite baru: `number64.rp` (overflow 32-bit & presisi 2^53), `void_ret.rp`
 (return-type + void + bare return), `class.rp` (class decl + construct),
-`const.rp` (const + re-init loop/fungsi).
+`const.rp` (const + re-init loop/fungsi), `print_format_stream.rp`
+(pola 3 printf-style + pola 4 stream target).
 
 Dijalankan lewat batch runner: `rupa test`, `rupa test --list`,
 `rupa test --select 1`, atau shortcut `rupa -t`, `rupa -l`, `rupa -lp ast`.
@@ -184,6 +199,10 @@ sys, fs, database (syntax + grammar masing-masing), view
 (modules/syntax/view.md + syntax/view.md). Update 26 September 2026:
 hlama view (API lama `Render.view`) ditulis ulang, halaman ternary baru,
 loop for-init terdokumentasi, `spec.root` masuk docs spec.
+Update 28 September 2026 (sinkron v0.2.2): halaman [Color](syntax/color.md)
+baru (hex literal + U_* binding + enum color), `comment.md` & `syntax.md`
+diperbarui (`#` bukan komentar lagi — komentar `//` dan `/* */`),
+`print.md` sudah memuat pola 3 (printf-style) & pola 4 (stream target).
 
 ### ❌ Belum Dibuat
 

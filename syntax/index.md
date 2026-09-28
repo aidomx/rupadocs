@@ -22,6 +22,7 @@ Dokumentasi grammar dan implementasi syntax dapat dilihat di [`docs/grammar/`](.
 - [Update](update.md)
 - [Ternary](ternary.md)
 - [Fallback](fallback.md)
+- [Color](color.md)
 
 ## Data
 
